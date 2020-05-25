@@ -61,7 +61,12 @@ join.sort <- join.data[order(join.data$USD),]
 #234 matches
 
 ##### Problem 4 #####
-
-
+library(dplyr)
+merg.sort %>% 
+  group_by(Income.Group) %>%
+  summarise(ave=mean(ranking, na.rm=TRUE))
+# High income OECD 33 / HIghincome nonOECD 91.9
 
 ##### Problem 5 #####
+library(Hmisc)
+cut2(merg.sort$ranking, g=5)
