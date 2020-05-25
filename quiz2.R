@@ -2,92 +2,54 @@ workingpath <- "C:\\Users\\MED1\\Desktop\\Coursera\\project\\GCD"
 setwd(workingpath)
 
 ##### Problem 1 #####
-fileURL1 <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
-if(!file.exists("data") & !file.exists("./data/prob1.csv")){
-	dir.create("data")
-}
-download.file(fileURL1, "./data/prob1.csv", method="curl")
+library(httr)
 
-prob1.data <- read.csv("./data/prob1.csv", header=TRUE)
-sum(prob1.data$VAL == 24, na.rm=TRUE)
-# 53
+# 1. Find OAuth settings for github:
+#    http://developer.github.com/v3/oauth/
+oauth_endpoints("github")
+
+# 2. To make your own application, register at
+#    https://github.com/settings/developers. Use any URL for the homepage URL
+#    (http://github.com is fine) and  http://localhost:1410 as the callback url
+#
+#    Replace your key and secret below.
+myapp <- oauth_app("github",
+  key = "56b637a5baffac62cad9",
+  secret = "8e107541ae1791259e9987d544ca568633da2ebf"
+)
+
+# 3. Get OAuth credentials
+github_token <- oauth2.0_token(oauth_endpoints("github"), myapp)
+
+# 4. Use API
+gtoken <- config(token = github_token)
+req <- GET("https://api.github.com/rate_limit", gtoken)
+stop_for_status(req)
+content(req)
+
+# OR:
+req <- with_config(gtoken, GET("https://api.github.com/rate_limit"))
+stop_for_status(req)
+content(req)
+
+
+2013-08-28T18:18:50Z
+2013-11-07T13:25:07Z
 
 ##### Problem 2 #####
-# Each tidy data table contains information about only one type of observation
 
+sqldf("select pwgtp1 from acs where AGEP<50")
 
 ##### Problem 3 #####
-fileURL3 <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx"
-if(!file.exists("data") & !file.exists("./data/prob3.xlsx")){
-	dir.create("data")
-}
-download.file(fileURL3, destfile="./data/prob3.xlsx", method="curl")
-library(xlsx)
 
-# read rows 18-23 & columns 7-15
-dat <- read.xlsx("./data/prob3.xlsx", sheetIndex=1, rowIndex=c(18:23), colIndex=c(7:15), header=TRUE)
-
-sum(dat$Zip*dat$Ext,na.rm=T)
-# [1] 36534720
+sqldf("select distinct AGEP from acs")
 
 ##### Problem 4 #####
-fileURL4 <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
-if(!file.exists("data") & !file.exists("./data/prob4.xml")){
-	dir.create("data")
-}
-library(XML)
-download.file(fileURL4, destfile="./data/prob4.xml", method="curl")
-doc <- xmlTreeParse("./data/prob4.xml", useInternal=TRUE)
-rootNode <- xmlRoot(doc)
-xmlName(rootNode)
 
-xpathSApply(doc, "//zipcode[@class='21231']", xmlValue)
+45  31  7  25
 
 
 ##### Problem 5 #####
-fileURL5 <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv"
-if(!file.exists("data") & !file.exists("./data/prob5.csv")){
-	dir.create("data")
-}
-download.file(fileURL5, destfile="./data/prob5.csv", method="curl")
-DT <- fread("./data/prob5.csv", header=TRUE)
 
-Rprof("rowMeans")
-rowMeans(DT)[DT$SEX==1];  rowMeans(DT)[DT$SEX==2]
-Rprof(NULL)
-
-Rprof("DT")
-DT[, mean(pwgtp15), by=SEX]
-Rprof(NULL)
-
-Rprof("mean.by")
-mean(DT$pwgtp15, by=DT$SEX)
-Rprof(NULL)
-
-Rprof("sapply")
-sapply(split(DT$pwgtp15, DT$SEX), mean)
-Rprof(NULL)
-
-Rprof("mean2")
-system.time(mean(DT[DT$SEX==1,]$pwgtp15); mean(DT[DT$SEX==2,]$pwgtp15))
-Rprof(NULL)
-
-Rprof("tapply")
-system.time(tapply(DT$pwgtp15, DT$SEX, mean))
-Rprof(NULL)
-
-summaryRprof("rowMeans")
-summaryRprof("DT")
-summaryRprof("mean.by")
-summaryRprof("sapply")
-summaryRprof("mean2")
-summaryRprof("tapply")
-
-
-rowMeans(DT)[DT$SEX==1];  rowMeans(DT)[DT$SEX==2]
-DT[, mean(pwgtp15), by=SEX]
-mean(DT$pwgtp15, by=DT$SEX)
-sapply(split(DT$pwgtp15, DT$SEX), mean)
-mean(DT[DT$SEX==1,]$pwgtp15); mean(DT[DT$SEX==2,]$pwgtp15)
-tapply(DT$pwgtp15, DT$SEX, mean)
-
+35824.9
+32426.7
