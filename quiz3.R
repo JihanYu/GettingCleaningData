@@ -1,5 +1,5 @@
-#workingpath <- "C:\\Users\\MED1\\Desktop\\Coursera\\project\\GCD"
-workingpath <- "C:\\Users\\pc\\Desktop\\Jihan\\GCD"
+workingpath <- "C:\\Users\\MED1\\Desktop\\Coursera\\project\\GCD"
+#workingpath <- "C:\\Users\\pc\\Desktop\\Jihan\\GCD"
 setwd(workingpath)
 
 ##### Problem 1 #####
@@ -55,10 +55,14 @@ library(dplyr)
 join.data <- inner_join(GDP, edu, by="CountryCode")
 join.sort <- join.data[order(join.data$USD),]
 
+dim(join.sort)
+join.sort$Long.Name.x[13]
+
 # SQL join
 #https://m.blog.naver.com/PostView.nhn?blogId=chsmanager&logNo=140202016634&proxyReferer=https:%2F%2Fwww.google.com%2F
 
-#234 matches
+#234 matches, St.Kitts & Nevis XXXXX
+#189 matches, St.Kitts & Nevis XXXXX
 
 ##### Problem 4 #####
 library(dplyr)
@@ -70,3 +74,10 @@ merg.sort %>%
 ##### Problem 5 #####
 library(Hmisc)
 cut2(merg.sort$ranking, g=5)
+merg.rank <- merg.sort[order(merg.sort$ranking),]
+cut2(merg.rank$ranking, g=5)
+table(cut2(merg.rank$ranking, g=5))
+table(cut2(merg.rank$ranking, g=5), merg.rank$Income.Group)
+
+#5 
+
