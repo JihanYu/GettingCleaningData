@@ -34,3 +34,19 @@ body_gyro_z_test <- read.table("./data/test/Inertial Signals/body_gyro_z_test.tx
 total_acc_x_test <- read.table("./data/test/Inertial Signals/total_acc_x_test.txt", colClasses="character")
 total_acc_y_test <- read.table("./data/test/Inertial Signals/total_acc_y_test.txt", colClasses="character")
 total_acc_z_test <- read.table("./data/test/Inertial Signals/total_acc_z_test.txt", colClasses="character")
+
+
+features <- read.table("./data/features.txt", colClasses="character")
+t.f <- c(rep("t", 265), rep("f", 554-265), rep("angle", 7))
+features[,2][1:554] <- substring(features[,2][1:554], first=2)
+a <- strsplit(features[,2], split="-")
+fillNA <- function(x){
+  len.x <- length(x)
+  if(len.x <3){
+    x <- c(x, rep(NA, 3-len.x))
+  }
+  return(x)
+}
+b <- lapply(a, fillNA)
+
+b1 <- matrix(unlist(b), ncol=3, byrow=TRUE)
