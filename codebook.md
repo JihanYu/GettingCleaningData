@@ -30,5 +30,5 @@
 # result_ave.txt
 - this has the average of each variable for each activity and each subject
 - 180 rows and 48 columns
-- 180 Rows contain 30 subjects and each subject has 6 activities
+- 180 rows contain 30 subjects and each subject has 6 activities
 - 48 columns contain 2 indicator(Subject & activity) and 46 variables about mean & std
