@@ -60,4 +60,4 @@ library(reshape2)
 data.long <- melt(meanstd.data, id.var=c("Subject", "Activity"),
 				  variable.name="variable", value.name="score")
 ave.data <- dcast(data.long, Subject + Activity ~ variable, mean, value.var="score")
-write.table(ave.data, "result_ave.csv", sep=",", row.names=FALSE)
+write.table(ave.data, "result_ave.txt", sep=" ", row.names=FALSE)
